@@ -1,9 +1,4 @@
-// ────────────────────────────────────────────────────────────────────────────
 // GET OUTDOORS — Global Styles
-// Fonts: Bebas Neue (display), DM Sans (body), DM Mono (mono)
-// ────────────────────────────────────────────────────────────────────────────
-
-// ── Design Tokens ────────────────────────────────────────────────────────────
 
 :root {
   // Colors
@@ -34,20 +29,10 @@
   --max-width: 1440px;
 }
 
-// ── Reset ─────────────────────────────────────────────────────────────────────
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+// Reset
 
 html {
   font-size: 16px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
 }
 
@@ -60,7 +45,7 @@ body {
   min-height: 100vh;
 }
 
-// ── Base Elements ─────────────────────────────────────────────────────────────
+// Base Elements
 
 h1,
 h2,
@@ -101,7 +86,7 @@ ol {
   list-style: none;
 }
 
-// ── Scrollbar (webkit) ────────────────────────────────────────────────────────
+// Scrollbar (webkit)
 
 ::-webkit-scrollbar {
   width: 6px;
@@ -121,14 +106,14 @@ ol {
   }
 }
 
-// ── Focus ─────────────────────────────────────────────────────────────────────
+// Focus
 
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
 
-// ── Selection ─────────────────────────────────────────────────────────────────
+// Selection
 
 ::selection {
   background: var(--color-accent);

@@ -1,0 +1,13 @@
+<label class="button-container" [for]="label" [ngClass]="animationClass">
+    <input type="radio" [id]="label" name="shippingMethod" [value]="label" [checked]="isChecked()" [disabled]="disabled"
+        (change)="onInputChange()" />
+    <i class="fa-solid fa-truck truck-symbol"></i>
+    <div class="row">
+        <div class="label-row">
+            <span>{{ label | titlecase }}</span>
+            <span class="flex-fill"></span>
+            <span class="shipping-cost">{{ cartService.formatPrice(shippingCost, 'GBP', 2) }}</span>
+        </div>
+        <div class="delivery-time">{{ deliveryTime }}</div>
+    </div>
+</label>

@@ -19,7 +19,7 @@ import {
 } from '../../core/models/product.model';
 import { ProductListItemComponent } from './product-list-item/product-list-item.component';
 import { DropdownSelectComponent } from "@core/components/dropdown-select/dropdown-select.component";
-import { InputFieldComponent } from "@core/components/input-field/input-field.component";
+import { SearchFieldComponent } from "@core/components/search-field/search-field.component";
 
 interface FilterState {
   category: ProductCategory | null;
@@ -34,7 +34,7 @@ interface FilterState {
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, ProductListItemComponent, DropdownSelectComponent, InputFieldComponent],
+  imports: [CommonModule, FormsModule, ProductListItemComponent, DropdownSelectComponent, SearchFieldComponent],
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss'],
 })

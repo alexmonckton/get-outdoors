@@ -94,4 +94,12 @@ export class CartService {
     const quantityText = quantity !== 1 ? `(${quantity})` : '';
     return variant ? `${product.name} (${variant.value}) ${quantityText}` : `${product.name} ${quantityText}`;
   }
+
+  formatPrice(price: number, currency = 'GBP', minimumFractionDigits = 0): string {
+    return new Intl.NumberFormat('en-GB', {
+      style: 'currency',
+      currency,
+      minimumFractionDigits,
+    }).format(price);
+  }
 }

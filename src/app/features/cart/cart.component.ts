@@ -3,18 +3,23 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../core/services/cart.service';
 import { CartItem } from '../../core/models/product.model';
-import { ButtonSolidComponent } from "@core/components/button-solid/button-solid.component";
 import { NumberStepperComponent } from "@core/components/number-stepper/number-stepper.component";
+import { CheckoutComponent } from "./checkout/checkout.component";
+import { CheckoutSummaryComponent } from "./checkout-summary/checkout-summary.component";
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, RouterLink, ButtonSolidComponent, NumberStepperComponent],
+  imports: [CommonModule, RouterLink, NumberStepperComponent, CheckoutComponent, CheckoutSummaryComponent],
   templateUrl: 'cart.component.html',
   styleUrl: 'cart.component.scss',
 })
 export class CartComponent {
-  readonly cartService = inject(CartService);
+  constructor(
+    readonly cartService: CartService
+  ) { }
+
+  showCheckout = false;
 
   remove(item: CartItem): void {
     this.cartService.removeItem(item.product.id, item.variantId);
@@ -53,15 +58,7 @@ export class CartComponent {
     );
   }
 
-  formatPrice(price: number, currency = 'GBP'): string {
-    return new Intl.NumberFormat('en-GB', {
-      style: 'currency',
-      currency,
-      minimumFractionDigits: 0,
-    }).format(price);
-  }
-
   checkout(): void {
-
+    this.showCheckout = true;
   }
 }

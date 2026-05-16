@@ -1,0 +1,23 @@
+<div class="checkout-summary">
+    <h2 class="summary-title">Summary</h2>
+    <div class="summary-row">
+        <span>Subtotal</span>
+        <span>{{ cartService.formatPrice(cartService.cart().subtotal, cartService.cart().currency, 2) }}</span>
+    </div>
+    <div class="summary-row">
+        <span>Shipping</span>
+        <span class="muted">{{shippingCost !== null ? cartService.formatPrice(shippingCost, cartService.cart().currency,
+            2)
+            : 'Calculated at checkout'}}</span>
+    </div>
+    <div class="summary-divider"></div>
+    <div class="summary-row total">
+        <span>Total</span>
+        <span>{{ cartService.formatPrice(cartService.cart().subtotal + (shippingCost || 0), cartService.cart().currency,
+            2)
+            }}</span>
+    </div>
+
+    <app-button-solid [text]="buttonText" (clicked)="buttonClick()"></app-button-solid>
+    <ng-content></ng-content>
+</div>

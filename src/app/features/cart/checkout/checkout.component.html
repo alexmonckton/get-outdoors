@@ -1,0 +1,71 @@
+<div class="popup-page">
+    <div class="popup-page-content">
+        <div class="popup-header">
+            <h1 class="page-title">Checkout</h1>
+            <div class="fill-remaining-space"></div>
+            <a class="close-btn" (click)="closeClick()">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </a>
+        </div>
+        <div *ngIf="cartService.itemCount() == 0" class="empty-cart">
+            <h2>Your cart is empty</h2>
+            <p>Looks like you haven't added anything to your cart yet.</p>
+            <a routerLink="/products" class="btn">Start Shopping</a>
+        </div>
+        <div *ngIf="cartService.itemCount() > 0" class="checkout-content">
+            <form [formGroup]="checkoutForm">
+                <h3 class="section-title">Customer Information</h3>
+                <div class="form-grid" formGroupName="customer">
+                    <app-input-field label="Full name" inputId="full-name" formControlName="name"
+                        [error]="nameError"></app-input-field>
+                    <app-input-field label="Email address" inputId="email" formControlName="email"
+                        [error]="emailError"></app-input-field>
+                </div>
+                <h3 class="section-title">Shipping Address</h3>
+                <div class="form-grid" formGroupName="shippingAddress">
+                    <app-input-field label="Address 1" inputId="address-1" formControlName="address1"
+                        [error]="address1Error"></app-input-field>
+                    <app-input-field label="Address 2" inputId="address-2" formControlName="address2"></app-input-field>
+                    <app-input-field label="Town/City" inputId="town-city" formControlName="city"
+                        [error]="cityError"></app-input-field>
+                    <app-input-field label="Postcode" inputId="postcode" formControlName="postcode"
+                        [error]="postcodeError" [maxLength]="8" [uppercase]="true"></app-input-field>
+                </div>
+                <h3 class="section-title">Shipping Method</h3>
+
+                <div class="shipping-method-container">
+                    <app-shipping-method class="shipping-method" formControlName="shippingMethod" label="standard"
+                        [animSpeed]="1" [shippingCost]="shippingCosts['standard']"
+                        deliveryTime="6-10 business days"></app-shipping-method>
+                    <app-shipping-method class="shipping-method" formControlName="shippingMethod" label="fast"
+                        [animSpeed]="2" [shippingCost]="shippingCosts['fast']"
+                        deliveryTime="2-5 business days"></app-shipping-method>
+                    <app-shipping-method class="shipping-method" formControlName="shippingMethod" label="express"
+                        [animSpeed]="3" [shippingCost]="shippingCosts['express']"
+                        deliveryTime="Next day"></app-shipping-method>
+                </div>
+
+                <div class="terms-container">
+                    <div [class]="termsError ? 'error-outline' : 'checkbox-wrapper'">
+                        <input type="checkbox" id="terms" formControlName="termsAndConditions" class="hidden-checkbox">
+                        <label for="terms" class="checkbox-label">
+                            <span>I agree to the <a href="#" class="terms-link">terms and conditions</a></span>
+                        </label>
+                    </div>
+                    <div>
+                        <span class="error" *ngIf="termsError">{{ termsError }}</span>
+                    </div>
+                </div>
+
+
+                <app-checkout-summary class="checkout-summary" [buttonText]="'Confirm order'" (confirm)="confirmClick()"
+                    [shippingCost]="selectedShippingCost"></app-checkout-summary>
+            </form>
+        </div>
+    </div>
+
+</div>

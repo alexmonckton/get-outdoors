@@ -149,7 +149,7 @@ export const MOCK_PRODUCTS: Product[] = [
     description:
       'Lightweight trail running shoe built for technical terrain. Vibram® MegaGrip outsole, dynamic lacing system, and a rock-plate midsole that protects without sacrificing ground feel.',
     price: 145,
-    compareAtPrice: 175,
+    compareAtPrice: 205,
     currency: 'GBP',
     images: [
       { id: 'img_006a', url: 'https://placehold.co/600x600/3d5a3e/f5f5f5?text=Ridge+Trail', alt: 'Ridge Trail Runner', isPrimary: true },
