@@ -30,8 +30,8 @@
       "@features/*": [
         "src/app/features/*"
       ],
-      "@public/*": [
-        "public/*"
+      "@assets/*": [
+        "src/assets/*"
       ],
       "@env/*": [
         "src/environments/*"

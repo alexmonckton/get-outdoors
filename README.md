@@ -56,7 +56,7 @@ That's it. `ProductService` is already wired to `environment.apiBaseUrl` and mak
 - **Product detail** — image gallery, variant selector (size, colour, etc.), quantity control, add to cart with feedback
 - **Cart** — reactive with Angular Signals; quantity adjustment, line totals, subtotal
 - **Design** — green outdoors theme, `Bebas Neue` display font, `DM Sans` body, `DM Mono` for UI labels
-- **Architecture** — lazy-loaded routes, standalone components, typed models, path aliases (`@core/*`, `@features/*`, `@public/*`)
+- **Architecture** — lazy-loaded routes, standalone components, typed models, path aliases (`@core/*`, `@features/*`, `@assets/*`)
 
 ---
 
