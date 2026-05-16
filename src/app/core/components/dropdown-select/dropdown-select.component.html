@@ -1,0 +1,9 @@
+<div class="select-wrap">
+    <label class="select-label" [for]="dropdownId">{{ label }}</label>
+    <select [id]="dropdownId" class="dropdown-select" [value]="selectIndex"
+        (change)="setSelectOption(+$any($event.target).value)">
+        @for (opt of selectOptions; track $index) {
+        <option [value]="$index">{{ opt.label }}</option>
+        }
+    </select>
+</div>

@@ -1,0 +1,41 @@
+.stepper-parent {
+    display: flex;
+    height: 100%;
+}
+
+.qty-control {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.qty-btn {
+    width: 40px;
+    height: 100%;
+    background: transparent;
+    border: none;
+    font-size: 1.1rem;
+    color: var(--color-fg);
+    cursor: pointer;
+    transition: background 0.15s;
+
+    &:hover:not(:disabled) {
+        background: var(--color-surface);
+    }
+
+    &:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+    }
+}
+
+.qty-val {
+    width: 40px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    border-left: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border);
+}

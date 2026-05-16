@@ -1,0 +1,110 @@
+<div class="detail-page">
+
+  <a class="breadcrumb" routerLink="/products">← Back to shop</a>
+
+  @if (isLoading()) {
+  <div class="detail-skeleton">
+    <div class="skeleton-image"></div>
+    <div class="skeleton-info">
+      <div class="skeleton-line w-40"></div>
+      <div class="skeleton-line w-70"></div>
+      <div class="skeleton-line w-30"></div>
+      <div class="skeleton-line w-90 mt"></div>
+      <div class="skeleton-line w-80"></div>
+    </div>
+  </div>
+  } @else if (error()) {
+  <div class="error-state">
+    <p>{{ error() }}</p>
+    <a routerLink="/products" class="back-link">← Back to shop</a>
+  </div>
+  } @else if (product()) {
+  <div class="detail-layout">
+
+    <!-- Image Gallery -->
+    <div class="gallery">
+      <div class="gallery-main">
+        <img [src]="activeImage" [alt]="product()!.name" class="gallery-main-img" />
+        @if (product()!.isNew) {
+        <span class="badge badge--new">New</span>
+        }
+      </div>
+
+      @if (product()!.images.length > 1) {
+      <div class="gallery-thumbs">
+        @for (img of product()!.images; track img.id; let i = $index) {
+        <button class="thumb-btn" [class.active]="selectedImageIndex() === i" (click)="selectImage(i)">
+          <img [src]="img.url" [alt]="img.alt" />
+        </button>
+        }
+      </div>
+      }
+    </div>
+
+    <!-- Product Info -->
+    <div class="info">
+      <span class="brand">{{ product()!.brand }}</span>
+      <h1 class="product-name">{{ product()!.name }}</h1>
+
+      <div class="rating-row">
+        <span class="stars">{{ stars(product()!.rating) }}</span>
+        <span class="rating-val">{{ product()!.rating }}</span>
+        <span class="review-count">{{ product()!.reviewCount }} reviews</span>
+      </div>
+
+      <div class="price-row">
+        <span class="price-main">{{ formatPrice(effectivePrice(), product()!.currency) }}</span>
+        @if (product()!.compareAtPrice) {
+        <span class="price-was">{{ formatPrice(product()!.compareAtPrice!, product()!.currency) }}</span>
+        }
+      </div>
+
+      <p class="description">{{ product()!.description }}</p>
+
+      <!-- Variants -->
+      @if (product()!.variants.length > 0) {
+      <div class="variant-group">
+        <span class="variant-label">
+          {{ product()!.variants[0].label }}:
+          <strong>{{ selectedVariant()?.value ?? 'Please select' }}</strong>
+        </span>
+        <div class="variant-options">
+          @for (v of product()!.variants; track v.id) {
+          <button class="variant-btn" [class.selected]="selectedVariantId() === v.id"
+            [class.out-of-stock]="v.stock === 0" [disabled]="v.stock === 0" (click)="selectVariant(v)"
+            [title]="v.stock === 0 ? 'Out of stock' : v.value">
+            {{ v.value }}
+          </button>
+          }
+        </div>
+      </div>
+      }
+
+      <!-- Quantity + Add to cart -->
+      <div class="actions">
+        <app-number-stepper [quantity]="quantity()" (quantityChange)="quantity.set($event)" [minQuantity]="1"
+          [maxQuantity]="selectedVariant()!.stock"></app-number-stepper>
+
+        <app-button-solid class="add-btn" [success]="added()" [text]="addToCartButtonText" (clicked)="addToCart()"
+          [disabled]="selectedVariant()!.stock === 0"></app-button-solid>
+      </div>
+
+      <!-- Stock indicator -->
+      @if (product()!.stock > 0 && product()!.stock <= 5) { <p class="low-stock">Only {{ product()!.stock }} left in
+        stock</p>
+        }
+
+        <!-- Tags -->
+        @if (product()!.tags.length > 0) {
+        <div class="tags">
+          @for (tag of product()!.tags; track tag) {
+          <span class="tag">{{ tag }}</span>
+          }
+        </div>
+        }
+    </div>
+
+  </div>
+  }
+
+</div>

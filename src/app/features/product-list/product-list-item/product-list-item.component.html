@@ -1,0 +1,37 @@
+<a [class]="cardClass" [routerLink]="['/products', product.slug]" [style.animation-delay]="(i * 40) + 'ms'">
+    <!-- Image -->
+    <div class="card-image-wrap">
+        <img class="card-image" [src]="primaryImage(product)" [alt]="product.name" loading="lazy" />
+        <!-- Badges -->
+        <div class="card-badges">
+            @if (product.isNew) {
+            <div class="badge badge--new">New</div>
+            }
+            @if (product.compareAtPrice) {
+            <div class="badge badge--sale">–{{ discount(product.price, product.compareAtPrice!) }}%</div>
+            }
+        </div>
+
+        @if (product.stock <= 5) { <div class="badge badge--low-stock">Only {{ product.stock }} left!
+    </div> }
+    </div>
+
+    <!-- Info -->
+    <div class="card-body">
+        <span class="card-brand">{{ product.brand }}</span>
+        <h3 class="card-name">{{ product.name }}</h3>
+        <div class="card-footer">
+            <div class="card-price">
+                <span class="price-current">{{ formatPrice(product.price, product.currency) }}</span>
+                @if (product.compareAtPrice) {
+                <span class="price-compare">{{ formatPrice(product.compareAtPrice, product.currency) }}</span>
+                }
+            </div>
+            <div class="card-rating">
+                <span class="star">★</span>
+                <span class="rating-val">{{ product.rating }}</span>
+                <span class="rating-count">({{ product.reviewCount }})</span>
+            </div>
+        </div>
+    </div>
+</a>

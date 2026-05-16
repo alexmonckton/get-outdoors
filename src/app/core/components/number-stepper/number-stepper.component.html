@@ -1,0 +1,7 @@
+<div class="stepper-parent">
+    <div class="qty-control">
+        <button class="qty-btn" (click)="adjustQty(-1)" [disabled]="quantity <= minQuantity">−</button>
+        <span class="qty-val">{{ quantity }}</span>
+        <button class="qty-btn" (click)="adjustQty(1)" [disabled]="quantity >= maxQuantity">+</button>
+    </div>
+</div>

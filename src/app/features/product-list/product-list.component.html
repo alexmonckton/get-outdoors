@@ -1,0 +1,78 @@
+<div class="list-page">
+
+  <!-- ── Toolbar ─────────────────────────────────────────────────────── -->
+  <div class="toolbar">
+    <div class="toolbar-inner">
+
+      <!-- Search -->
+      <div class="search-wrap">
+        <app-input-field type="search" label="Search products…" [value]="filters().search"
+          (valueChange)="onSearchInput($event)"></app-input-field>
+      </div>
+
+      <!-- Sort -->
+      <app-dropdown-select label="Sort" dropdownId="sort-select" [selectOptions]="sortOptions"
+        [selectIndex]="activeSortIndex()" (selectIndexChange)="setSortOption($event)"></app-dropdown-select>
+
+    </div>
+
+    <!-- Category pills -->
+    <div class="category-strip">
+      @for (cat of categories; track cat.value) {
+      <button class="category-pill" [class.active]="isActiveCategory(cat.value)" (click)="setCategory(cat.value)">
+        {{ cat.label }}
+      </button>
+      }
+    </div>
+  </div>
+
+  <!-- Results meta -->
+  <div class="results-meta">
+    @if (!isLoading() && totalProducts() > 0) {
+    <span class="result-count">
+      {{ totalProducts() }} {{ totalProducts() === 1 ? 'product' : 'products' }}
+    </span>
+    }
+  </div>
+
+  <!-- Product Grid -->
+  @if (isLoading()) {
+  <div class="grid">
+    @for (n of [1,2,3,4,5,6,7,8,9,10,11,12]; track n) {
+    <div class="card skeleton"></div>
+    }
+  </div>
+  } @else if (error()) {
+  <div class="empty-state">
+    <p class="empty-msg">{{ error() }}</p>
+    <button class="btn-reset" (click)="loadProducts()">Try again</button>
+  </div>
+  } @else if (products().length === 0) {
+  <div class="empty-state">
+    <p class="empty-msg">No products found.</p>
+    <button class="btn-reset" (click)="resetFilters()">Clear filters</button>
+  </div>
+  } @else {
+  <div class="grid">
+    @for (product of products(); track product.id; let i = $index) {
+    <app-product-list-item [i]="i" [product]="product">
+    </app-product-list-item>
+    }
+  </div>
+
+  <!-- Pagination -->
+  @if (totalPages() > 1) {
+  <nav class="pagination">
+    <button class="page-btn" [disabled]="filters().page === 1" (click)="setPage(filters().page - 1)">←</button>
+
+    @for (p of pages(); track p) {
+    <button class="page-btn" [class.active]="p === filters().page" (click)="setPage(p)">{{ p }}</button>
+    }
+
+    <button class="page-btn" [disabled]="filters().page === totalPages()"
+      (click)="setPage(filters().page + 1)">→</button>
+  </nav>
+  }
+  }
+
+</div>

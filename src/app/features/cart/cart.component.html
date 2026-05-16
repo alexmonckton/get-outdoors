@@ -1,0 +1,60 @@
+<div class="cart-page">
+    <h1 class="page-title">Cart</h1>
+
+    @if (cartService.items().length === 0) {
+    <div class="empty-cart">
+        <p>Your cart is empty.</p>
+        <a routerLink="/products" class="continue-link">Browse products</a>
+    </div>
+    } @else {
+    <div class="cart-layout">
+        <ul class="item-list">
+            @for (item of cartService.items(); track item.product.id + (item.variantId ?? '')) {
+            <li class="cart-item">
+                <img class="item-img" [src]="primaryImage(item)" [alt]="item.product.name" />
+                <div class="item-info">
+                    <span class="item-brand">{{ item.product.brand }}</span>
+                    <a class="item-name" [routerLink]="['/products', item.product.slug]">{{ item.product.name }}</a>
+                    @if (item.variantId) {
+                    <span class="item-variant">{{ variantLabel(item) }}</span>
+                    }
+                </div>
+                <div class="item-controls">
+                    <app-number-stepper [quantity]="item.quantity" (quantityChange)="updateQty(item, $event)"
+                        [minQuantity]="0" [maxQuantity]="variantStock(item)"></app-number-stepper>
+
+                    <span class="item-price">{{ formatPrice(lineTotal(item), item.product.currency) }}</span>
+                </div>
+                <button class="remove-btn" (click)="remove(item)" title="Remove">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
+            </li>
+            }
+        </ul>
+
+        <div class="cart-summary">
+            <h2 class="summary-title">Summary</h2>
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <span>{{ formatPrice(cartService.cart().subtotal, cartService.cart().currency) }}</span>
+            </div>
+            <div class="summary-row">
+                <span>Shipping</span>
+                <span class="muted">Calculated at checkout</span>
+            </div>
+            <div class="summary-divider"></div>
+            <div class="summary-row total">
+                <span>Total</span>
+                <span>{{ formatPrice(cartService.cart().subtotal, cartService.cart().currency) }}</span>
+            </div>
+
+            <app-button-solid [text]="'Proceed to checkout'" (clicked)="checkout()"></app-button-solid>
+            <a routerLink="/products" class="continue-link">← Continue shopping</a>
+        </div>
+    </div>
+    }
+</div>
