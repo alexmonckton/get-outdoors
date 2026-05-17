@@ -33,17 +33,3 @@ I used AI tools to build an initial skeleton framework of a product browser with
 ## Mock API
 
 All HTTP requests to `environment.apiBaseUrl` (`/api` in dev) are intercepted by `MockApiInterceptor` and resolved locally with simulated latency.
-
-### Switching to a Real Backend
-
-1. Update `src/environments/environment.production.ts`:
-   ```ts
-   export const environment = {
-     production: true,
-     apiBaseUrl: 'https://api.yourstore.com/v1',
-     mockApiDelayMs: 0,
-   };
-   ```
-2. Remove `MockApiInterceptor` from `app.config.ts` providers.
-
-That's it. `ProductService` is already wired to `environment.apiBaseUrl` and makes standard HTTP calls — no other changes needed.

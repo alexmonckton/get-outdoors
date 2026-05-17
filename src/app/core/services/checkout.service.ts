@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { environment } from "@env/environment";
 import { firstValueFrom } from 'rxjs';
 
 
@@ -13,8 +14,9 @@ import { firstValueFrom } from 'rxjs';
 })
 export class CheckoutService {
     constructor(private readonly httpClient: HttpClient) { }
+    private readonly base = `${environment.apiBaseUrl}/checkout`;
 
     async processOrder(orderData: any): Promise<void> {
-        await firstValueFrom(this.httpClient.post('/api/checkout', orderData));
+        await firstValueFrom(this.httpClient.post(this.base, orderData));
     }
 }
