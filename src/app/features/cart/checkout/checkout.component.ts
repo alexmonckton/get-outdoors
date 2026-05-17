@@ -1,11 +1,14 @@
 import { CommonModule } from "@angular/common";
 import { Component, ElementRef, EventEmitter, Input, Output, QueryList, signal, ViewChildren } from "@angular/core";
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CartService } from "@core/services/cart.service";
 import { CheckoutSummaryComponent } from "../checkout-summary/checkout-summary.component";
 import { InputFieldComponent } from "@core/components/input-field/input-field.component";
 import { ShippingMethodComponent } from "./shipping-method/shipping-method";
 import { DialogService } from "@core/services/dialog.service";
+import { CheckoutService } from "@core/services/checkout.service";
+import { NotifyService } from "@core/services/notify.service";
 
 type ShippingMethod = 'standard' | 'fast' | 'express';
 
@@ -20,9 +23,12 @@ type ShippingMethod = 'standard' | 'fast' | 'express';
 export class CheckoutComponent {
     constructor(
         readonly cartService: CartService,
+        readonly checkoutService: CheckoutService,
+        private router: Router,
         private formBuilder: FormBuilder,
         private el: ElementRef,
-        readonly dialogService: DialogService
+        readonly dialogService: DialogService,
+        readonly notifyService: NotifyService
     ) { }
 
     @ViewChildren('formField')
@@ -32,10 +38,13 @@ export class CheckoutComponent {
 
     shippingCosts: Record<ShippingMethod, number> = { standard: 5, fast: 10, express: 15 };
 
+    loading: boolean = false;
+
     checkoutForm = this.formBuilder.group({
         customer: this.formBuilder.group({
             name: ['', Validators.required],
             email: ['', [Validators.required, Validators.email]],
+            phone: ['', Validators.pattern(/^\+?[\s\d]{7,15}$/)]
         }),
 
         shippingAddress: this.formBuilder.group({
@@ -47,13 +56,6 @@ export class CheckoutComponent {
 
         shippingMethod: ['standard', Validators.required],
 
-        // payment: this.formBuilder.group({
-        //     method: ['card', Validators.required],
-        //     cardNumber: ['', [Validators.required, Validators.pattern(/^\d{16}$/)]],
-        //     expiry: ['', [Validators.required, Validators.pattern(/^(0[1-9]|1[0-2])\/\d{2}$/)]],
-        //     cvv: ['', [Validators.required, Validators.pattern(/^\d{3}$/)]]
-        // }),
-
         termsAndConditions: [false, Validators.requiredTrue]
     });
 
@@ -61,13 +63,36 @@ export class CheckoutComponent {
         this.close.emit();
     }
 
-    confirmClick() {
-        // Placeholder for actual checkout logic
-        if (this.checkoutForm.valid) {
-            alert('Checkout confirmed! (This is a placeholder action.)');
-        } else {
+    async confirmClick() {
+        if (!this.checkoutForm.valid) {
             this.checkoutForm.markAllAsTouched();
             this.focusFirstInvalidControl();
+            return;
+        }
+
+        const orderData = {
+            customer: this.checkoutForm.get('customer')?.value,
+            shippingAddress: this.checkoutForm.get('shippingAddress')?.value,
+            shippingMethod: this.checkoutForm.get('shippingMethod')?.value,
+            termsAndConditions: this.checkoutForm.get('termsAndConditions')?.value,
+            items: this.cartService.items().map((item) => ({
+                productId: item.product.id,
+                variantId: item.variantId,
+                quantity: item.quantity,
+            })),
+        };
+
+        try {
+            this.loading = true;
+            await this.checkoutService.processOrder(orderData);
+            this.loading = false;
+            this.cartService.clearCart();
+            this.router.navigate(['/products']);
+            this.notifyService.showAlert('Order has been confirmed!', 'success');
+        } catch (error) {
+            this.loading = false;
+            console.error('Order processing failed', error);
+            this.notifyService.showAlert('Failed to process checkout. Please try again.', 'error');
         }
     }
 
@@ -127,6 +152,13 @@ Get Outdoors has no affiliation with Go Outdoors Ltd, JD Sports, or any other re
             } else if (this.checkoutForm.get('customer.email')?.errors?.['email']) {
                 return 'Please enter a valid email address';
             }
+        }
+        return null;
+    }
+
+    get phoneError(): string | null {
+        if (this.checkoutForm.get('customer.phone')?.touched && this.checkoutForm.get('customer.phone')?.invalid) {
+            return 'Please enter a valid phone number';
         }
         return null;
     }

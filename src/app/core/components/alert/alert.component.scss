@@ -74,3 +74,13 @@
         color: #7f1d1d;
     }
 }
+
+.alert-success {
+    background-color: #d1fae5;
+    color: #065f46;
+    border-left: 4px solid #10b981;
+
+    .alert-close {
+        color: #065f46;
+    }
+}

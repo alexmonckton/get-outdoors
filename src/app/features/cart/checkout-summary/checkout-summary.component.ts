@@ -19,6 +19,8 @@ export class CheckoutSummaryComponent {
     @Output() confirm = new EventEmitter<void>();
     @Input() shippingCost: number | null = null;
 
+    @Input() loading: boolean = false;
+
     buttonClick() {
         this.confirm.emit();
     }

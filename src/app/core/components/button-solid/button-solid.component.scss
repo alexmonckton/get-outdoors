@@ -27,3 +27,8 @@
         cursor: not-allowed;
     }
 }
+
+.spinner-icon {
+    margin-left: var(--space-2);
+    animation: spin 1s linear infinite;
+}

@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -17,7 +17,7 @@ import {
  */
 @Injectable({ providedIn: 'root' })
 export class ProductService {
-  private readonly http = inject(HttpClient);
+  constructor(private readonly httpClient: HttpClient) { }
   private readonly base = `${environment.apiBaseUrl}/products`;
 
   getProducts(query: ProductQueryParams = {}): Observable<PaginatedResponse<Product>> {
@@ -33,14 +33,14 @@ export class ProductService {
     if (query.maxPrice !== undefined) params = params.set('maxPrice', String(query.maxPrice));
     if (query.tags?.length) params = params.set('tags', query.tags.join(','));
 
-    return this.http.get<PaginatedResponse<Product>>(this.base, { params });
+    return this.httpClient.get<PaginatedResponse<Product>>(this.base, { params });
   }
 
   getProductById(id: string): Observable<Product> {
-    return this.http.get<Product>(`${this.base}/${id}`);
+    return this.httpClient.get<Product>(`${this.base}/${id}`);
   }
 
   getProductBySlug(slug: string): Observable<Product> {
-    return this.http.get<Product>(`${this.base}/slug/${slug}`);
+    return this.httpClient.get<Product>(`${this.base}/slug/${slug}`);
   }
 }

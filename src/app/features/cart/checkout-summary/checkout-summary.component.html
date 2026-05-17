@@ -18,6 +18,6 @@
             }}</span>
     </div>
 
-    <app-button-solid [text]="buttonText" (clicked)="buttonClick()"></app-button-solid>
+    <app-button-solid [text]="buttonText" (clicked)="buttonClick()" [loading]="loading"></app-button-solid>
     <ng-content></ng-content>
 </div>

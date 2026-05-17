@@ -50,13 +50,11 @@ export class CartService {
           this.notifyService.showAlert('Cannot add ' + this.readableName(existing.product, quantity, existing.variantId) + ' to the cart. Stock limit reached!', 'error');
           return items;
         }
-        //this.notifyService.showAlert('Successfully added ' + this.readableName(existing.product, quantity, existing.variantId) + ' to the cart', 'success');
         success = true;
         return items.map((i) =>
           i === existing ? { ...i, quantity: i.quantity + quantity } : i
         );
       }
-      //this.notifyService.showAlert('Successfully added ' + this.readableName(product, quantity, variantId) + ' to the cart', 'success');
       success = true;
       return [...items, { product, variantId, quantity }];
     });

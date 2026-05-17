@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 
@@ -6,11 +7,13 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
     standalone: true,
     templateUrl: './button-solid.component.html',
     styleUrl: './button-solid.component.scss',
+    imports: [CommonModule]
 })
 export class ButtonSolidComponent {
     @Input() text: string = 'Click';
     @Input() disabled: boolean = false;
     @Input() success: boolean = false;
+    @Input() loading: boolean = false;
 
     @Output() clicked = new EventEmitter<Event>();
 

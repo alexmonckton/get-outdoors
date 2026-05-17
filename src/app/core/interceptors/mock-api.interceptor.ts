@@ -26,6 +26,7 @@ import {
  *   GET  /api/products              → PaginatedResponse<Product>
  *   GET  /api/products/:id          → Product
  *   GET  /api/products/slug/:slug   → Product
+ *   POST /api/checkout              → void
  *
  * Replace or remove this interceptor when wiring up a real backend.
  */
@@ -81,6 +82,9 @@ export class MockApiInterceptor implements HttpInterceptor {
       if (idMatch) {
         return this.handleGetProductById(idMatch[1]);
       }
+    }
+    if (method === 'POST' && path === '/checkout') {
+      return this.handleProcessOrder(req);
     }
 
     this.throw404(`No mock route for ${method} ${path}`);
@@ -178,7 +182,54 @@ export class MockApiInterceptor implements HttpInterceptor {
     return product!;
   }
 
-  // ─── Helpers ──────────────────────────────────────────────────────────────
+  private handleProcessOrder(req: HttpRequest<unknown>): void {
+    // In a real implementation, we'd validate the request body and process the order.
+    // Here we'll simulate success if the body has the expected shape
+
+    const body = req.body as {
+      customer: { name: string; email: string; phone?: string };
+      shippingAddress: { address1: string; address2?: string; city: string; postcode: string };
+      shippingMethod: string;
+      termsAndConditions: boolean;
+      items: Array<{
+        productId: string | null;
+        variantId: string | null;
+        quantity: number;
+      }>;
+    };
+
+    const itemsValid = Array.isArray(body?.items) && body.items.length > 0 && body.items.every((item) =>
+      item &&
+      (typeof item.productId === 'string') &&
+      (item.variantId === null || typeof item.variantId === 'string') &&
+      typeof item.quantity === 'number' && item.quantity > 0
+    );
+
+    if (
+      !body ||
+      !body.customer ||
+      typeof body.customer.name !== 'string' ||
+      typeof body.customer.email !== 'string' ||
+      !body.shippingAddress ||
+      typeof body.shippingAddress.address1 !== 'string' ||
+      typeof body.shippingAddress.city !== 'string' ||
+      typeof body.shippingAddress.postcode !== 'string' ||
+      typeof body.shippingMethod !== 'string' ||
+      body.termsAndConditions !== true ||
+      !itemsValid
+    ) {
+      throw { status: 400, message: 'Invalid order data' };
+    }
+
+    // Simulate a random failure 10% of the time
+    if (Math.random() < 0.1) {
+      throw { status: 500, message: 'Failed to process order. Please try again.' };
+    }
+
+    // Otherwise, succeed with no response body
+  }
+
+  // Helpers
 
   private throw404(message: string): never {
     throw { status: 404, message };

@@ -24,12 +24,15 @@
                         [error]="nameError"></app-input-field>
                     <app-input-field label="Email address" inputId="email" formControlName="email"
                         [error]="emailError"></app-input-field>
+                    <app-input-field label="Phone number (optional)" inputId="phone" formControlName="phone"
+                        [error]="phoneError"></app-input-field>
                 </div>
                 <h3 class="section-title">Shipping Address</h3>
                 <div class="form-grid" formGroupName="shippingAddress">
                     <app-input-field label="Address 1" inputId="address-1" formControlName="address1"
                         [error]="address1Error"></app-input-field>
-                    <app-input-field label="Address 2" inputId="address-2" formControlName="address2"></app-input-field>
+                    <app-input-field label="Address 2 (optional)" inputId="address-2"
+                        formControlName="address2"></app-input-field>
                     <app-input-field label="Town/City" inputId="town-city" formControlName="city"
                         [error]="cityError"></app-input-field>
                     <app-input-field label="Postcode" inputId="postcode" formControlName="postcode"
@@ -64,8 +67,8 @@
                 </div>
 
 
-                <app-checkout-summary class="checkout-summary" [buttonText]="'Confirm order'" (confirm)="confirmClick()"
-                    [shippingCost]="selectedShippingCost"></app-checkout-summary>
+                <app-checkout-summary class="checkout-summary" buttonText="Place order" (confirm)="confirmClick()"
+                    [shippingCost]="selectedShippingCost" [loading]="loading"></app-checkout-summary>
             </form>
         </div>
     </div>

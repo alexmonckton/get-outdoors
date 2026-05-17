@@ -1,3 +1,4 @@
-<button class="btn-solid" [class.success]="success" (click)="btnClick($event)" [disabled]="disabled">
+<button class="btn-solid" [class.success]="success" (click)="btnClick($event)" [disabled]="disabled || loading">
     {{ text }}
+    <i *ngIf="loading" class="fa-solid fa-spinner spinner-icon"></i>
 </button>

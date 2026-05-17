@@ -12,7 +12,7 @@ import { NotifyService } from '../../services/notify.service';
 export class AlertComponent {
     readonly notifyService = inject(NotifyService);
 
-    getAlertClass(type: string): string {
+    getAlertClass(type: 'error' | 'success'): string {
         return `alert alert-${type}`;
     }
 }

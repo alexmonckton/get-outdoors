@@ -3,7 +3,7 @@ import { Injectable, signal } from '@angular/core';
 export interface Alert {
     id: string;
     message: string;
-    type: 'error';
+    type: 'error' | 'success';
 }
 
 @Injectable({
@@ -12,7 +12,7 @@ export interface Alert {
 export class NotifyService {
     alerts = signal<Alert[]>([]);
 
-    showAlert(message: string, type: 'error' = 'error', duration = 5000) {
+    showAlert(message: string, type: 'error' | 'success' = 'error', duration = 5000) {
         const id = Date.now().toString();
         const alert: Alert = { id, message, type };
 
