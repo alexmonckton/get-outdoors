@@ -64,7 +64,7 @@ export class MockApiInterceptor implements HttpInterceptor {
     );
   }
 
-  // ─── Router ───────────────────────────────────────────────────────────────
+  // Router
 
   private route(method: string, path: string, req: HttpRequest<unknown>): unknown {
     if (method === 'GET') {
@@ -90,7 +90,7 @@ export class MockApiInterceptor implements HttpInterceptor {
     this.throw404(`No mock route for ${method} ${path}`);
   }
 
-  // ─── Handlers ─────────────────────────────────────────────────────────────
+  // Handlers
 
   private handleListProducts(req: HttpRequest<unknown>): PaginatedResponse<Product> {
     const p = req.params;

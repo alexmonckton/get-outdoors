@@ -85,14 +85,16 @@ export class CheckoutComponent {
         try {
             this.loading = true;
             await this.checkoutService.processOrder(orderData);
-            this.loading = false;
             this.cartService.clearCart();
-            this.router.navigate(['/products']);
+            await this.router.navigate(['/products']);
+            window.scrollTo(0, 0);
             this.notifyService.showAlert('Order has been confirmed!', 'success');
         } catch (error) {
-            this.loading = false;
             console.error('Order processing failed', error);
-            this.notifyService.showAlert('Failed to process checkout. Please try again.', 'error');
+            this.notifyService.showAlert('Failed to process order. Please try again.', 'error');
+        }
+        finally {
+            this.loading = false;
         }
     }
 
