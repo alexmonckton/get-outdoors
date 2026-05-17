@@ -26,7 +26,7 @@ npm start
 
 ## AI Tool Usage
 
-I used AI tools to build an initial skeleton framework of a product browser with mock API interceptor, as well as to generate product data. Everything in the app has either been written by me or modified / refactored by me from the initial AI generated code.
+I used AI tools to build an initial skeleton framework of a product browser with mock API interceptor, as well as to generate initial product data. Everything in the app has either been written by me or modified / refactored / restyled by me from the initial AI generated code.
 
 ---
 
