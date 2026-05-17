@@ -21,7 +21,7 @@ npm install
 
 # Start dev server (http://localhost:4200)
 npm start
-
+```
 ---
 
 ## AI Tool Usage
