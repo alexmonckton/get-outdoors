@@ -1,0 +1,21 @@
+<div *ngIf="dialogService.state().length > 0" class="dialog-backdrop" (click)="closeTop()">
+    <ng-container *ngFor="let dialog of dialogService.state(); let i = index">
+        <div class="dialog-panel" [style.zIndex]="1000 + i" [style.transform]="'translateY(' + (i * 12) + 'px)'"
+            (click)="$event.stopPropagation()">
+            <div class="dialog-header">
+                <h2 class="page-title">{{ dialog.title || 'Dialog' }}</h2>
+                <div class="fill-remaining-space"></div>
+                <button type="button" class="dialog-close" aria-label="Close dialog" (click)="close(dialog.id)">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
+            </div>
+            <div class="dialog-content">
+                {{ dialog.content }}
+            </div>
+        </div>
+    </ng-container>
+</div>

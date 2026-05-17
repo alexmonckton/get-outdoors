@@ -53,7 +53,9 @@
                     <div [class]="termsError ? 'error-outline' : 'checkbox-wrapper'">
                         <input type="checkbox" id="terms" formControlName="termsAndConditions" class="hidden-checkbox">
                         <label for="terms" class="checkbox-label">
-                            <span>I agree to the <a href="#" class="terms-link">terms and conditions</a></span>
+                            <span>I agree to the <a (click)="openTermsAndConditions($event)" class="terms-link">terms
+                                    and
+                                    conditions</a></span>
                         </label>
                     </div>
                     <div>

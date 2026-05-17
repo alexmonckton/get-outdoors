@@ -5,6 +5,7 @@ import { CartService } from "@core/services/cart.service";
 import { CheckoutSummaryComponent } from "../checkout-summary/checkout-summary.component";
 import { InputFieldComponent } from "@core/components/input-field/input-field.component";
 import { ShippingMethodComponent } from "./shipping-method/shipping-method";
+import { DialogService } from "@core/services/dialog.service";
 
 type ShippingMethod = 'standard' | 'fast' | 'express';
 
@@ -20,7 +21,8 @@ export class CheckoutComponent {
     constructor(
         readonly cartService: CartService,
         private formBuilder: FormBuilder,
-        private el: ElementRef
+        private el: ElementRef,
+        readonly dialogService: DialogService
     ) { }
 
     @ViewChildren('formField')
@@ -59,7 +61,7 @@ export class CheckoutComponent {
         this.close.emit();
     }
 
-    confirmClick(): void {
+    confirmClick() {
         // Placeholder for actual checkout logic
         if (this.checkoutForm.valid) {
             alert('Checkout confirmed! (This is a placeholder action.)');
@@ -69,7 +71,21 @@ export class CheckoutComponent {
         }
     }
 
-    private focusFirstInvalidControl(): void {
+    openTermsAndConditions(event: Event): void {
+        event.preventDefault();
+        event.stopPropagation();
+        this.dialogService.open({
+            title: 'Terms and Conditions',
+            content:
+                `By purchasing from our store, you agree to our terms and conditions.
+
+Get Outdoors accepts no liability for any issues around the receiving of your order, including but not limited to delays, lost packages, or unreceived items. If you have any concerns about your order, please don't contact our customer service team, in fact we don't have one.
+
+Get Outdoors has no affiliation with Go Outdoors Ltd, JD Sports, or any other retailer. By using our service, you waive your right to sue us for trademark infringement.`
+        });
+    }
+
+    private focusFirstInvalidControl() {
         const invalidKey = this.findFirstInvalidControl(this.checkoutForm);
         if (!invalidKey) {
             return;

@@ -11,6 +11,7 @@
 .popup-page-content {
     margin-inline: auto;
     max-width: 1000px;
+    margin-top: 15px;
 }
 
 .popup-header {
@@ -29,10 +30,17 @@
 }
 
 .close-btn {
-    padding: 20px;
+    padding: 10px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
     &:hover {
         cursor: pointer;
+        background: rgba(15, 23, 42, 0.08);
     }
 }
 
@@ -105,6 +113,7 @@
 
 .terms-link {
     font-weight: 500;
+    cursor: pointer;
 
     &:hover {
         text-decoration: underline;
